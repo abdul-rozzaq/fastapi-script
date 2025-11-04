@@ -23,7 +23,7 @@ msg = None
 TIME_OUT = 10
 
 ICORP_URL = "https://test.icorp.uz/interview.php"
-NGROK_URL = env.str("NGROK_URL", "https://stable-kingfish-sought.ngrok-free.app")
+NGROK_URL = env.str("NGROK_URL")
 
 
 @app.post("/")
