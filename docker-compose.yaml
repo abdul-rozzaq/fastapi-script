@@ -4,8 +4,6 @@ services:
     ports:
       - "4040:4040"
 
-    # network_mode: "host"
-
     environment:
       NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
       NGROK_REGION: us
@@ -13,4 +11,4 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
-    command: http host.docker.internal:8000
+    command: http --log=stdout host.docker.internal:8000

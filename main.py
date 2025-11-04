@@ -3,12 +3,25 @@ import time
 import requests
 import environs
 
-from pydantic import BaseModel
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 
 class RequestBody(BaseModel):
     part2: str
+
+
+def get_ngrok_url():
+    try:
+        response = requests.get("http://localhost:4040/api/tunnels", timeout=5)
+        tunnels = response.json().get("tunnels", [])
+        for tunnel in tunnels:
+            if tunnel.get("proto") == "https":
+                return tunnel.get("public_url")
+
+    except Exception as e:
+        print(f"Ngrok URL olishda xatolik: {e}")
+    return None
 
 
 app = FastAPI()
@@ -23,7 +36,7 @@ msg = None
 TIME_OUT = 10
 
 ICORP_URL = "https://test.icorp.uz/interview.php"
-NGROK_URL = env.str("NGROK_URL")
+NGROK_URL = env.str("NGROK_URL", get_ngrok_url())
 
 
 @app.post("/")
@@ -42,6 +55,8 @@ def send_request():
     msg = input("Habarni kiriting: ")
 
     response = requests.post(ICORP_URL, json={"msg": msg, "url": NGROK_URL})
+
+    print("Response: ", response.json())
 
     part1 = response.json().get("part1")
 
