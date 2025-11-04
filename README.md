@@ -23,15 +23,21 @@ pip install -r requirements.txt
 
 2. `.env` fayl yarating va kerakli o'zgaruvchilarni qo'shing:
 
-```
-NGROK_URL=url
+```bash
 NGROK_AUTHTOKEN=authtoken
+NGROK_URL=url #ngrok ishga tushganidan keyin o'zgartiriladi
 ```
 
 3. `ngrok` ni ishga tushirish:
 
+```bash
+docker compose up
 ```
-docker compose up -d
+
+4. `.env` dagi `NGROK_URL` ni yangilash:
+
+```bash
+NGROK_URL=ngrok_url
 ```
 
 ## Ishga tushirish
