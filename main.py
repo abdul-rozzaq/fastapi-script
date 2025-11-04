@@ -1,27 +1,10 @@
 import threading
 import time
-import requests
 import environs
 
 from fastapi import FastAPI
-from pydantic import BaseModel
 
-
-class RequestBody(BaseModel):
-    part2: str
-
-
-def get_ngrok_url():
-    try:
-        response = requests.get("http://localhost:4040/api/tunnels", timeout=5)
-        tunnels = response.json().get("tunnels", [])
-        for tunnel in tunnels:
-            if tunnel.get("proto") == "https":
-                return tunnel.get("public_url")
-
-    except Exception as e:
-        print(f"Ngrok URL olishda xatolik: {e}")
-    return None
+from utils import RequestBody, get_ngrok_url, get_request, post_request
 
 
 app = FastAPI()
@@ -29,9 +12,7 @@ app = FastAPI()
 env = environs.Env()
 env.read_env()
 
-part1 = None
-part2 = None
-msg = None
+part1, part2, msg = None, None, None
 
 TIME_OUT = 10
 
@@ -54,11 +35,8 @@ def send_request():
 
     msg = input("Habarni kiriting: ")
 
-    response = requests.post(ICORP_URL, json={"msg": msg, "url": NGROK_URL})
-
-    print("Response: ", response.json())
-
-    part1 = response.json().get("part1")
+    response = post_request(ICORP_URL, json_data={"msg": msg, "url": NGROK_URL})
+    part1 = response.get("part1")
 
     for i in range(TIME_OUT):
         if part2 is not None:
@@ -71,10 +49,8 @@ def send_request():
 
     code = f"{part1}{part2}"
 
-    print("code:", code)
-
-    response = requests.get(ICORP_URL, params={"code": code})
-    message = response.json().get("msg")
+    response = get_request(ICORP_URL, params={"code": code})
+    message = response.get("msg")
 
     print("habar:", message)
 
