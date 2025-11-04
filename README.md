@@ -2,13 +2,13 @@
 
 0. Virtual muhit yaratish:
 
-#### linux va mac uchun
+linux va mac uchun
 
 ```bash
 python3 -m venv venv && source venv/bin/activate
 ```
 
-#### windows
+windows uchun
 
 ```bash
 python -m venv venv
