@@ -1,10 +1,9 @@
 import threading
 import time
-from pydantic import BaseModel
-
 import requests
 import environs
 
+from pydantic import BaseModel
 from fastapi import FastAPI
 
 
