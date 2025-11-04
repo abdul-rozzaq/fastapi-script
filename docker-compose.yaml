@@ -1,0 +1,16 @@
+services:
+  ngrok:
+    image: ngrok/ngrok:latest
+    ports:
+      - "4040:4040"
+
+    # network_mode: "host"
+
+    environment:
+      NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
+      NGROK_REGION: us
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    command: http host.docker.internal:8000
