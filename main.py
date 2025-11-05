@@ -22,6 +22,7 @@ MESSAGE = "Hello world!"
 
 ICORP_URL = "https://test.icorp.uz/interview.php"
 NGROK_URL = env.str("NGROK_URL", default="") or get_ngrok_url()
+PART2_TIMEOUT = 10
 
 
 @app.post("/")
@@ -31,10 +32,14 @@ async def handle_post(body: RequestBody):
 
 
 async def send_request():
+    assert NGROK_URL, "Ngrok URL topilmadi"
+
     response = await post_request(ICORP_URL, json_data={"msg": MESSAGE, "url": NGROK_URL})
     state.part1 = response.get("part1")
 
-    for i in range(10):
+    assert state.part1, "Part1 topilmadi"
+
+    for _ in range(PART2_TIMEOUT):
         if state.part2 is not None:
             break
 
