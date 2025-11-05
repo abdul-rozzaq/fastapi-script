@@ -6,7 +6,6 @@ services:
     environment:
       - NGROK_API_URL=http://ngrok:4040
       - NGROK_URL=${NGROK_URL:-}
-      - TIMEOUT_SECONDS=10
     depends_on:
       - ngrok
 
