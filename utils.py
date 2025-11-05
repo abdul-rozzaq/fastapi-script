@@ -22,7 +22,7 @@ def get_ngrok_url():
     api_base = os.getenv("NGROK_API_URL", "http://localhost:4040")
 
     try:
-        response = requests.get(f"{api_base}/api/tunnels", timeout=5)
+        response = requests.get(f"{api_base}/api/tunnels", timeout=10)
         tunnels = response.json().get("tunnels", [])
 
         for tunnel in tunnels:
@@ -41,8 +41,9 @@ async def post_request(url: str, json_data: dict):
 
         async with httpx.AsyncClient(timeout=15) as client:
             response = await client.post(url, json=json_data)
-            response.raise_for_status()
 
+            print("Response:", response.json())
+            response.raise_for_status()
             print("Response:", response.json())
 
             return response.json()

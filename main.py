@@ -18,10 +18,10 @@ state = AppState()
 env = environs.Env()
 env.read_env()
 
-MESSAGE = "Hello from FastAPI client!"
+MESSAGE = "Hello world!"
 
 ICORP_URL = "https://test.icorp.uz/interview.php"
-NGROK_URL = env.str("NGROK_URL", get_ngrok_url())
+NGROK_URL = env.str("NGROK_URL", default="") or get_ngrok_url()
 
 
 @app.post("/")

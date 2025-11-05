@@ -4,9 +4,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      # Point utils.get_ngrok_url() to the ngrok API inside the compose network
       - NGROK_API_URL=http://ngrok:4040
-      # Optional: override public ngrok URL if you prefer not to auto-discover
       - NGROK_URL=${NGROK_URL:-}
       - TIMEOUT_SECONDS=10
     depends_on:
@@ -24,4 +22,4 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
-  command: http --log=stdout host.docker.internal:8000
+    command: http --log=stdout host.docker.internal:8000
