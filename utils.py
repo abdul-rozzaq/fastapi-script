@@ -1,8 +1,7 @@
 from dataclasses import dataclass
 from pydantic import BaseModel
+
 import os
-
-
 import requests
 import httpx
 
